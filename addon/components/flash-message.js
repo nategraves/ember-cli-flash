@@ -1,5 +1,5 @@
 import Ember from 'ember';
-mport layout from '../templates/components/flash-message';
+import layout from '../templates/components/flash-message';
 import computed from 'ember-new-computed';
 
 const {
