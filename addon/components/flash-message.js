@@ -13,6 +13,7 @@ const {
   set,
 } = Ember;
 const {
+  alias,
   readOnly,
   bool
 } = computed;
@@ -25,7 +26,7 @@ export default Component.extend({
   showProgressBar: readOnly('flash.showProgress'),
   entering: readOnly('flash.entering'),
   showing: readOnly('flash.showing'),
-  exiting: readOnly('flash.exiting'),
+  exiting: alias('flash.exiting'),
   extendedTimeout: readOnly('flash.extendedTimeout'),
 
   alertType: computed('flash.type', {
@@ -85,6 +86,7 @@ export default Component.extend({
   }),
 
   click() {
+    set(this, 'exiting', true);
     run.later(this, this._destroyFlashMessage(), get(this, 'flash.extendedTimeout'));
   },
 
