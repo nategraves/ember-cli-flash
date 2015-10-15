@@ -17,13 +17,11 @@ export default EmberObject.extend(Evented, {
   queue: readOnly('flashService.queue'),
   totalTimeout: customComputed.add('preroll', 'timeout', 'extendedTimeout').readOnly(),
   timer: null,
-  entranceTimer: null,
   exitTimer: null,
   exiting: false,
 
   init() {
     this._super(...arguments);
-    this._setTimer('entranceTimer', 'entranceMessage', get(this, 'preroll'));
 
     if (get(this, 'sticky')) {
       return;
@@ -44,10 +42,6 @@ export default EmberObject.extend(Evented, {
     this.trigger('didDestroyMessage');
   },
 
-  entranceMessage() {
-    set(this, 'entering', true);
-  },
-
   exitMessage() {
     set(this, 'exiting', true);
 
@@ -56,7 +50,7 @@ export default EmberObject.extend(Evented, {
   },
 
   willDestroy() {
-    const timers = ['timer', 'entranceTimer', 'exitTimer'];
+    const timers = ['timer', 'exitTimer'];
 
     timers.forEach((timer) => {
       this._cancelTimer(timer);

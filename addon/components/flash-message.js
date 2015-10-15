@@ -19,11 +19,10 @@ const {
 
 export default Component.extend({
   layout,
-  classNameBindings: ['alertType', 'active', 'entering', 'exiting'],
+  classNameBindings: ['alertType', 'active', 'exiting'],
   active: false,
   messageStyle: 'bootstrap',
   showProgressBar: readOnly('flash.showProgress'),
-  entering: readOnly('flash.entering'),
   exiting: readOnly('flash.exiting'),
 
   alertType: computed('flash.type', {
