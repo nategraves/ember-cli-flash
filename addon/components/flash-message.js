@@ -25,7 +25,7 @@ export default Component.extend({
   active: false,
   entering: true,
   exiting: readOnly('flash.exiting'),
-  extendedTimein: readOnly('flash.extendedTimein')
+  extendedTimein: readOnly('flash.extendedTimein'),
 
   alertType: computed('flash.type', {
     get() {
