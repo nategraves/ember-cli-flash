@@ -65,7 +65,7 @@ export default Component.extend({
 
   _setActive: on('didInsertElement', function() {
     run.scheduleOnce('afterRender', this, () => {
-      set(this, 'active', true);
+      run.later(this, () => { set(this, 'active', true) }, getWithDefault(this, 'flash.
     });
   }),
 
