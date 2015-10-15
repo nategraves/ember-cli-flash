@@ -19,7 +19,8 @@ export default EmberObject.extend(Evented, {
   totalTimeout: customComputed.add('extendedTimein', 'timeout', 'extendedTimeout').readOnly(),
   timer: null,
   exitTimer: null,
-  entering: alias('flash.entering'),
+  entering: true,
+  active: alias('flash.active')
   exiting: false,
 
   init() {
@@ -31,6 +32,11 @@ export default EmberObject.extend(Evented, {
 
     this._setTimer('exitTimer', 'exitMessage', get(this, 'timeout'));
     this._setTimer('timer', 'destroyMessage', get(this, 'totalTimeout'));
+
+    later(this, function() {
+      set(this, 'entering', false);
+      set(this, 'active', true);
+    }, get(this, 'flash.extendedTimein'));
   },
 
   destroyMessage() {

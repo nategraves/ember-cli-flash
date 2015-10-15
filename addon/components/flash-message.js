@@ -23,9 +23,7 @@ export default Component.extend({
   messageStyle: 'bootstrap',
   showProgressBar: readOnly('flash.showProgress'),
   active: false,
-  entering: true,
   exiting: readOnly('flash.exiting'),
-  extendedTimein: readOnly('flash.extendedTimein'),
 
   alertType: computed('flash.type', {
     get() {
@@ -63,10 +61,7 @@ export default Component.extend({
 
   _setActive: on('didInsertElement', function() {
     run.scheduleOnce('afterRender', this, () => {
-      later(this, function() {
-        set(this, 'entering', false);
-        set(this, 'active', true);
-      }, get(this, get(this, 'extendedTimein')));
+      //set(this, 'active', true);
     });
   }),
 
