@@ -26,8 +26,7 @@ export default Component.extend({
   showProgressBar: readOnly('flash.showProgress'),
   entering: readOnly('flash.entering'),
   showing: readOnly('flash.showing'),
-  exiting: alias('flash.exiting'),
-  extendedTimeout: readOnly('flash.extendedTimeout'),
+  exiting: ('flash.exiting')
 
   alertType: computed('flash.type', {
     get() {
@@ -65,7 +64,7 @@ export default Component.extend({
 
   _setActive: on('didInsertElement', function() {
     run.scheduleOnce('afterRender', this, () => {
-      run.later(this, () => { set(this, 'active', true) }, getWithDefault(this, 'flash.extendedTimein'));
+      set(this, 'active', true);
     });
   }),
 
@@ -86,8 +85,7 @@ export default Component.extend({
   }),
 
   click() {
-    set(this, 'exiting', true);
-    run.later(this, this._destroyFlashMessage(), get(this, 'flash.extendedTimeout'));
+    this._destroyFlashMessage();
   },
 
   willDestroy() {
