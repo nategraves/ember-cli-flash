@@ -20,9 +20,9 @@ const {
 export default Component.extend({
   layout,
   classNameBindings: ['alertType', 'active', 'entering', 'exiting'],
-  active: false,
   messageStyle: 'bootstrap',
   showProgressBar: readOnly('flash.showProgress'),
+  active: readOnly('flash.active'),
   entering: readOnly('flash.entering'),
   exiting: readOnly('flash.exiting'),
 
@@ -58,12 +58,6 @@ export default Component.extend({
 
       return this;
     }
-  }),
-
-  _setActive: on('didInsertElement', function() {
-    run.scheduleOnce('afterRender', this, () => {
-      set(this, 'active', true);
-    });
   }),
 
   progressDuration: computed('flash.showProgress', {
