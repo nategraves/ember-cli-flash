@@ -63,7 +63,7 @@ export default Component.extend({
     run.later(this, function() {
       set(this, 'active', true);
     }, get(this, 'flash.preroll'));
-  }),
+  },
 
   progressDuration: computed('flash.showProgress', {
     get() {
