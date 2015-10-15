@@ -19,12 +19,13 @@ const {
 
 export default Component.extend({
   layout,
-  classNameBindings: ['alertType', 'active', 'entering', 'showing', 'exiting'],
+  classNameBindings: ['alertType', 'active', 'entering', 'exiting'],
   messageStyle: 'bootstrap',
   showProgressBar: readOnly('flash.showProgress'),
-  showing: readOnly('flash.showing'),
-  entering: readOnly('flash.entering'),
+  active: false,
+  entering: true,
   exiting: readOnly('flash.exiting'),
+  extendedTimein: readOnly('flash.extendedTimein')
 
   alertType: computed('flash.type', {
     get() {
@@ -58,6 +59,15 @@ export default Component.extend({
 
       return this;
     }
+  }),
+
+  _setActive: on('didInsertElement', function() {
+    run.scheduleOnce('afterRender', this, () => {
+      later(this, function() {
+        set(this, 'entering', false);
+        set(this, 'active', true);
+      }, get(this, get(this, 'extendedTimein')));
+    });
   }),
 
   progressDuration: computed('flash.showProgress', {
