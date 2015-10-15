@@ -26,6 +26,7 @@ export default Component.extend({
   entering: readOnly('flash.entering'),
   showing: readOnly('flash.showing'),
   exiting: readOnly('flash.exiting'),
+  extendedTimeout: readOnly('flash.extendedTimeout'),
 
   alertType: computed('flash.type', {
     get() {
@@ -84,7 +85,7 @@ export default Component.extend({
   }),
 
   click() {
-    this._destroyFlashMessage();
+    run.later(this, this._destroyFlashMessage(), get(this, 'flash.extendedTimeout'));
   },
 
   willDestroy() {
