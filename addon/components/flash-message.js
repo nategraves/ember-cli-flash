@@ -19,10 +19,11 @@ const {
 
 export default Component.extend({
   layout,
-  classNameBindings: ['alertType', 'active', 'exiting'],
+  classNameBindings: ['alertType', 'active', 'entering', 'exiting'],
   active: false,
   messageStyle: 'bootstrap',
   showProgressBar: readOnly('flash.showProgress'),
+  entering: readOnly('flash.entering'),
   exiting: readOnly('flash.exiting'),
 
   alertType: computed('flash.type', {
@@ -60,9 +61,10 @@ export default Component.extend({
   }),
 
   _setActive: on('didInsertElement', function() {
-    run.scheduleOnce('afterRender', this, () => {
+    set(this, 'entering', true);
+    run.later(this, function() {
       set(this, 'active', true);
-    });
+    }, get(this, 'flash.preroll'));
   }),
 
   progressDuration: computed('flash.showProgress', {

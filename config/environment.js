@@ -6,6 +6,7 @@ module.exports = function(/* environment, appConfig */) {
   return {
     flashMessageDefaults: {
       timeout: 3000,
+      preroll: 0,
       extendedTimeout: 0,
       priority: 100,
       sticky: false,
