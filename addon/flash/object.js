@@ -28,7 +28,7 @@ export default EmberObject.extend(Evented, {
       return;
     }
 
-    run.later(this, function() {
+    later(this, function() {
       set(this, 'entering', false);
     }, get(this, 'flash.preroll'));
 
