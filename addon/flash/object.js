@@ -20,7 +20,7 @@ export default EmberObject.extend(Evented, {
   timer: null,
   exitTimer: null,
   entering: true,
-  active: alias('flash.active'),
+  showing: false,
   exiting: false,
 
   init() {
@@ -35,7 +35,7 @@ export default EmberObject.extend(Evented, {
 
     later(this, function() {
       set(this, 'entering', false);
-      set(this, 'active', true);
+      set(this, 'showing', true);
     }, get(this, 'flash.extendedTimein'));
   },
 
