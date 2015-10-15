@@ -18,6 +18,7 @@ export default EmberObject.extend(Evented, {
   totalTimeout: customComputed.add('preroll', 'timeout', 'extendedTimeout').readOnly(),
   timer: null,
   exitTimer: null,
+  entering: true,
   exiting: false,
 
   init() {
@@ -26,6 +27,10 @@ export default EmberObject.extend(Evented, {
     if (get(this, 'sticky')) {
       return;
     }
+
+    run.later(this, function() {
+      set(this, 'entering', false);
+    }, get(this, 'flash.preroll'));
 
     this._setTimer('exitTimer', 'exitMessage', get(this, 'timeout'));
     this._setTimer('timer', 'destroyMessage', get(this, 'totalTimeout'));
