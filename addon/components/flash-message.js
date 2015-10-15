@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import layout from '../templates/components/flash-message';
+mport layout from '../templates/components/flash-message';
 import computed from 'ember-new-computed';
 
 const {
@@ -59,7 +59,7 @@ export default Component.extend({
     }
   }),
 
-  didInsertElement: function() {
+  didInsertElement() {
     run.later(this, function() {
       set(this, 'active', true);
     }, get(this, 'flash.preroll'));
