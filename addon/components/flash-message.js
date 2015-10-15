@@ -61,7 +61,6 @@ export default Component.extend({
   }),
 
   _setActive: on('didInsertElement', function() {
-    set(this, 'entering', true);
     run.later(this, function() {
       set(this, 'active', true);
     }, get(this, 'flash.preroll'));
