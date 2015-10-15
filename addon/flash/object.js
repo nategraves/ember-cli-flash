@@ -28,12 +28,12 @@ export default EmberObject.extend(Evented, {
       return;
     }
 
+    this._setTimer('exitTimer', 'exitMessage', get(this, 'timeout'));
+    this._setTimer('timer', 'destroyMessage', get(this, 'totalTimeout'));
+
     later(this, function() {
       set(this, 'entering', false);
     }, get(this, 'flash.preroll'));
-
-    this._setTimer('exitTimer', 'exitMessage', get(this, 'timeout'));
-    this._setTimer('timer', 'destroyMessage', get(this, 'totalTimeout'));
   },
 
   destroyMessage() {
