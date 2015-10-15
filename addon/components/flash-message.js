@@ -59,7 +59,7 @@ export default Component.extend({
     }
   }),
 
-  didInsertElement() {
+  didInsertElement: function() {
     run.later(this, function() {
       set(this, 'active', true);
     }, get(this, 'flash.preroll'));
