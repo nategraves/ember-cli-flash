@@ -15,7 +15,7 @@ const {
 
 export default EmberObject.extend(Evented, {
   queue: readOnly('flashService.queue'),
-  totalTimeout: customComputed.add('preroll', 'timeout', 'extendedTimeout').readOnly(),
+  totalTimeout: customComputed.add('extendedTimein', 'timeout', 'extendedTimeout').readOnly(),
   timer: null,
   exitTimer: null,
   entering: true,
@@ -33,7 +33,7 @@ export default EmberObject.extend(Evented, {
 
     later(this, function() {
       set(this, 'entering', false);
-    }, get(this, 'flash.preroll'));
+    }, get(this, 'flash.extendedTimein'));
   },
 
   destroyMessage() {
