@@ -32,7 +32,7 @@ export default EmberObject.extend(Evented, {
     later(this, function() {
       set(this, 'entering', false);
       set(this, 'showing', true);
-    }, get(this, 'flash.extendedTimein'));
+    }, get(this, 'extendedTimein'));
 
     this._setTimer('exitTimer', 'exitMessage', get(this, 'timeout'));
     this._setTimer('timer', 'destroyMessage', get(this, 'totalTimeout'));
