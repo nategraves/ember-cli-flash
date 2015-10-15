@@ -10,13 +10,12 @@ const {
   set
 } = Ember;
 const {
-  alias,
   readOnly
 } = computed;
 
 export default EmberObject.extend(Evented, {
   queue: readOnly('flashService.queue'),
-  totalTimeout: customComputed.add('extendedTimein', 'timeout', 'extendedTimeout').readOnly(),
+  totalTimeout: customComputed.add('timeout', 'extendedTimein', 'extendedTimeout').readOnly(),
   timer: null,
   exitTimer: null,
   entering: true,
@@ -30,13 +29,13 @@ export default EmberObject.extend(Evented, {
       return;
     }
 
-    this._setTimer('exitTimer', 'exitMessage', get(this, 'timeout'));
-    this._setTimer('timer', 'destroyMessage', get(this, 'totalTimeout'));
-
     later(this, function() {
       set(this, 'entering', false);
       set(this, 'showing', true);
     }, get(this, 'flash.extendedTimein'));
+
+    this._setTimer('exitTimer', 'exitMessage', get(this, 'timeout'));
+    this._setTimer('timer', 'destroyMessage', get(this, 'totalTimeout'));
   },
 
   destroyMessage() {
