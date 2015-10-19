@@ -13,7 +13,6 @@ const {
   set,
 } = Ember;
 const {
-  alias,
   readOnly,
   bool
 } = computed;
@@ -26,7 +25,7 @@ export default Component.extend({
   showProgressBar: readOnly('flash.showProgress'),
   entering: readOnly('flash.entering'),
   showing: readOnly('flash.showing'),
-  exiting: ('flash.exiting')
+  exiting: ('flash.exiting'),
 
   alertType: computed('flash.type', {
     get() {
