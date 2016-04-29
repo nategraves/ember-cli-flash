@@ -6,26 +6,31 @@ const {
   String: { classify, htmlSafe },
   Component,
   getWithDefault,
-  warn,
   run,
   on,
   get,
-  set,
+  set
 } = Ember;
 const {
   readOnly,
   bool
 } = computed;
+const {
+  next,
+  cancel
+} = run;
 
 export default Component.extend({
   layout,
-  classNameBindings: ['alertType', 'active', 'entering', 'showing', 'exiting'],
   active: false,
   messageStyle: 'bootstrap',
+  classNameBindings: ['alertType', 'active', 'entering', 'showing', 'exiting'],
+
   showProgressBar: readOnly('flash.showProgress'),
+  exiting: readOnly('flash.exiting'),
+  hasBlock: bool('template').readOnly(),
   entering: readOnly('flash.entering'),
   showing: readOnly('flash.showing'),
-  exiting: ('flash.exiting'),
 
   alertType: computed('flash.type', {
     get() {
@@ -38,12 +43,6 @@ export default Component.extend({
       }
 
       return `${prefix}${flashType}`;
-    },
-
-    set() {
-      warn('`alertType` is read only');
-
-      return this;
     }
   }),
 
@@ -52,19 +51,14 @@ export default Component.extend({
       const flashType = getWithDefault(this, 'flash.type', '');
 
       return classify(flashType);
-    },
-
-    set() {
-      warn('`flashType` is read only');
-
-      return this;
     }
   }),
 
   _setActive: on('didInsertElement', function() {
-    run.scheduleOnce('afterRender', this, () => {
+    const pendingSet = next(this, () => {
       set(this, 'active', true);
     });
+    set(this, 'pendingSet', pendingSet);
   }),
 
   progressDuration: computed('flash.showProgress', {
@@ -76,10 +70,6 @@ export default Component.extend({
       const duration = getWithDefault(this, 'flash.timeout', 0);
 
       return htmlSafe(`transition-duration: ${duration}ms`);
-    },
-
-    set() {
-      warn('`progressDuration` is read only');
     }
   }),
 
@@ -90,6 +80,7 @@ export default Component.extend({
   willDestroy() {
     this._super();
     this._destroyFlashMessage();
+    cancel(get(this, 'pendingSet'));
   },
 
   // private
@@ -99,7 +90,5 @@ export default Component.extend({
     if (flash) {
       flash.destroyMessage();
     }
-  },
-
-  hasBlock: bool('template').readOnly()
+  }
 });

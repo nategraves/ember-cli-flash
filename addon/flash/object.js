@@ -14,13 +14,15 @@ const {
 } = computed;
 
 export default EmberObject.extend(Evented, {
-  queue: readOnly('flashService.queue'),
-  totalTimeout: customComputed.add('timeout', 'extendedTimein', 'extendedTimeout').readOnly(),
   timer: null,
   exitTimer: null,
   entering: true,
   showing: false,
   exiting: false,
+
+  queue: readOnly('flashService.queue'),
+  totalTimeout: customComputed.add('timeout', 'extendedTimein', 'extendedTimeout').readOnly(),
+  _guid: customComputed.guidFor('message').readOnly(),
 
   init() {
     this._super(...arguments);
@@ -67,10 +69,8 @@ export default EmberObject.extend(Evented, {
   },
 
   // private
-  _guid: customComputed.guidFor('message').readOnly(),
-
   _setTimer(name, methodName, timeout) {
-    set(this, name, later(this, methodName, timeout));
+    return set(this, name, later(this, methodName, timeout));
   },
 
   _cancelTimer(name) {
