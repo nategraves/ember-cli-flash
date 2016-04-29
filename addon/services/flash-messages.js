@@ -9,7 +9,6 @@ const {
   copy,
   getWithDefault,
   isNone,
-  merge,
   setProperties,
   typeOf,
   warn,
@@ -24,8 +23,11 @@ const {
   mapBy
 } = computed;
 
+const merge = Ember.assign || Ember.merge;
+
 export default Service.extend({
   isEmpty: equal('queue.length', 0).readOnly(),
+  _guids: mapBy('queue', '_guid').readOnly(),
 
   arrangedQueue: sort('queue', function(a, b) {
     if (a.priority < b.priority) {
@@ -36,8 +38,6 @@ export default Service.extend({
     return 0;
   }).readOnly(),
 
-  _guids: mapBy('queue', '_guid').readOnly(),
-
   init() {
     this._super(...arguments);
     this._setDefaults();
@@ -45,7 +45,9 @@ export default Service.extend({
   },
 
   add(options = {}) {
-    return this._enqueue(this._newFlashMessage(options));
+    this._enqueue(this._newFlashMessage(options));
+
+    return this;
   },
 
   clearMessages() {
@@ -55,11 +57,15 @@ export default Service.extend({
       return;
     }
 
-    return flashes.clear();
+    flashes.clear();
+
+    return this;
   },
 
   registerTypes(types = emberArray()) {
     types.forEach((type) => this._registerType(type));
+
+    return this;
   },
 
   _newFlashMessage(options = {}) {
@@ -129,7 +135,9 @@ export default Service.extend({
     const guid = get(flashInstance, '_guid');
 
     if (preventDuplicates && this._hasDuplicate(guid)) {
-      warn('Attempting to add a duplicate message to the Flash Messages Service');
+      warn('Attempting to add a duplicate message to the Flash Messages Service', false, {
+        id: 'ember-cli-flash.duplicate-message'
+      });
       return;
     }
 
